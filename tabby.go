@@ -14,10 +14,6 @@ type TabbyItem struct {
 	Text      string
 }
 
-func Item(direction int, text string) TabbyItem {
-	return TabbyItem{Direction: direction, Text: text}
-}
-
 func Left(text string) TabbyItem {
 	return TabbyItem{Direction: 0, Text: text}
 }
@@ -28,15 +24,15 @@ func Right(text string) TabbyItem {
 
 func (t *Tabby) AddLine(args ...TabbyItem) {
 	t.ColumnCount = len(args)
-	t.ColMax = []int{}
 	t.Rows = append(t.Rows, args)
 	if len(t.ColMax) == 0 {
 		for _, arg := range args {
 			t.ColMax = append(t.ColMax, len(arg.Text))
 		}
-	}
-	for idx, arg := range args {
-		t.ColMax[idx] = max(len(arg.Text), t.ColMax[idx])
+	} else {
+		for idx, arg := range args {
+			t.ColMax[idx] = max(len(arg.Text), t.ColMax[idx])
+		}
 	}
 }
 
@@ -72,6 +68,6 @@ func max(a, b int) int {
 	return b
 }
 
-func New(space int) Tabby {
-	return Tabby{Spacing: space}
+func New(space int) *Tabby {
+	return &Tabby{Spacing: space}
 }
